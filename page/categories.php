@@ -114,6 +114,35 @@ $colorMap = [
   </div>
 
   <script>
+    const catModal = document.querySelector('#categoryModal');
+    document.querySelector('#openCategoryModal')?.addEventListener('click', () => {
+      catModal.style.display = 'flex';
+      document.querySelector('#catName').focus();
+    });
+    document.querySelector('#closeCategoryModal')?.addEventListener('click', () => catModal.style.display = 'none');
+    document.querySelector('#cancelCategoryModal')?.addEventListener('click', () => catModal.style.display = 'none');
+    catModal?.addEventListener('click', e => { if (e.target === catModal) catModal.style.display = 'none'; });
+
+    document.querySelector('#categoryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new URLSearchParams(new FormData(this));
+      formData.append('action', 'create');
+      
+      fetch('../actions/category_action.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: formData.toString()
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          window.location.reload();
+        } else {
+          alert(data.error || 'Error creating category');
+        }
+      });
+    });
+
     document.querySelectorAll('.delete-cat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         if (confirm('Are you sure you want to delete this category? All alerts in this category will become uncategorized.')) {
@@ -140,4 +169,5 @@ $colorMap = [
     });
   </script>
 
+<?php include '../includes/modal.php'; ?>
 <?php include '../includes/footer.php'; ?>
