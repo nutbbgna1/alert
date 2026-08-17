@@ -22,6 +22,11 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 
+// เปิดแสดง Error เพื่อใช้หาปัญหา 500
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
     
@@ -29,53 +34,57 @@ try {
     try {
         $pdo->query("SELECT 1 FROM users LIMIT 1");
     } catch (\PDOException $e) {
-        $pdo->exec("
-            CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(255) NOT NULL UNIQUE,
-                password_hash VARCHAR(255) NOT NULL,
-                full_name VARCHAR(255),
-                nickname VARCHAR(100),
-                department VARCHAR(100),
-                role ENUM('user', 'admin') DEFAULT 'user',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-            CREATE TABLE IF NOT EXISTS categories (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(50) NOT NULL,
-                color VARCHAR(20) NOT NULL,
-                user_id INT NULL
-            );
-            CREATE TABLE IF NOT EXISTS notes (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
-                body TEXT,
-                date VARCHAR(50),
-                user_id INT NULL
-            );
-            CREATE TABLE IF NOT EXISTS alerts (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
-                alert_date DATE NOT NULL,
-                alert_time TIME NOT NULL,
-                category_id INT,
-                priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
-                status ENUM('active', 'completed') DEFAULT 'active',
-                description TEXT,
-                user_id INT NULL,
-                FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
-            );
-            CREATE TABLE IF NOT EXISTS webauthn_credentials (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id INT NOT NULL,
-                credential_id TEXT NOT NULL,
-                public_key TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            );
-        ");
+        try {
+            $pdo->exec("
+                CREATE TABLE IF NOT EXISTS users (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    username VARCHAR(255) NOT NULL UNIQUE,
+                    password_hash VARCHAR(255) NOT NULL,
+                    full_name VARCHAR(255),
+                    nickname VARCHAR(100),
+                    department VARCHAR(100),
+                    role ENUM('user', 'admin') DEFAULT 'user',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                CREATE TABLE IF NOT EXISTS categories (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(50) NOT NULL,
+                    color VARCHAR(20) NOT NULL,
+                    user_id INT NULL
+                );
+                CREATE TABLE IF NOT EXISTS notes (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    title VARCHAR(255) NOT NULL,
+                    body TEXT,
+                    date VARCHAR(50),
+                    user_id INT NULL
+                );
+                CREATE TABLE IF NOT EXISTS alerts (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    title VARCHAR(255) NOT NULL,
+                    alert_date DATE NOT NULL,
+                    alert_time TIME NOT NULL,
+                    category_id INT,
+                    priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
+                    status ENUM('active', 'completed') DEFAULT 'active',
+                    description TEXT,
+                    user_id INT NULL,
+                    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+                );
+                CREATE TABLE IF NOT EXISTS webauthn_credentials (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT NOT NULL,
+                    credential_id TEXT NOT NULL,
+                    public_key TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                );
+            ");
+        } catch (\PDOException $migrateEx) {
+            die("Migration Error: " . $migrateEx->getMessage());
+        }
     }
 } catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    die("Database Connection Error: " . $e->getMessage() . " | DB: " . $db . " | User: " . $user);
 }
 ?>
