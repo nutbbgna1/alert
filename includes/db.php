@@ -51,6 +51,11 @@ try {
                 } catch (\PDOException $colEx) {}
             }
         }
+        
+        // Ensure alerts table has 'trashed' status
+        try {
+            $pdo->exec("ALTER TABLE alerts MODIFY COLUMN status ENUM('active', 'completed', 'trashed') DEFAULT 'active'");
+        } catch (\PDOException $e) {}
     } catch (\PDOException $e) {
         // Create users table
         try {
@@ -97,7 +102,7 @@ try {
                     alert_time TIME NOT NULL,
                     category_id INT,
                     priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
-                    status ENUM('active', 'completed') DEFAULT 'active',
+                    status ENUM('active', 'completed', 'trashed') DEFAULT 'active',
                     description TEXT,
                     user_id INT NULL,
                     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL

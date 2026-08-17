@@ -15,8 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CREATE alert
     if ($action === 'create') {
         $title       = trim($_POST['title'] ?? '');
-        $alert_date  = $_POST['alert_date'] ?? '';
-        $alert_time  = $_POST['alert_time'] ?? '09:00';
+        $alert_date  = trim($_POST['alert_date'] ?? '');
+        $alert_time  = trim($_POST['alert_time'] ?? '');
+        if (empty($alert_time)) $alert_time = '09:00:00';
+        
         $category_id = intval($_POST['category_id'] ?? 0) ?: null;
         $priority    = $_POST['priority'] ?? 'medium';
         $description = trim($_POST['description'] ?? '');
@@ -26,11 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $stmt = $pdo->prepare("INSERT INTO alerts (title, alert_date, alert_time, category_id, priority, description, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        if ($stmt->execute([$title, $alert_date, $alert_time, $category_id, $priority, $description, $user_id])) {
-            echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);
-        } else {
-            echo json_encode(['success' => false]);
+        try {
+            $stmt = $pdo->prepare("INSERT INTO alerts (title, alert_date, alert_time, category_id, priority, description, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            if ($stmt->execute([$title, $alert_date, $alert_time, $category_id, $priority, $description, $user_id])) {
+                echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Failed to insert alert']);
+            }
+        } catch (\PDOException $e) {
+            echo json_encode(['success' => false, 'error' => 'Database Error: ' . $e->getMessage()]);
         }
         exit;
     }
