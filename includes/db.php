@@ -34,11 +34,10 @@ try {
     try {
         $pdo->query("SELECT 1 FROM users LIMIT 1");
         
-        // Table exists, but let's check if new columns exist (like password_hash)
+        // Check if new columns exist
         try {
             $pdo->query("SELECT password_hash FROM users LIMIT 1");
         } catch (\PDOException $e) {
-            // password_hash is missing, let's add the missing columns
             $columns = [
                 "password_hash VARCHAR(255) NOT NULL AFTER username",
                 "full_name VARCHAR(255)",
@@ -49,12 +48,11 @@ try {
             foreach ($columns as $col) {
                 try {
                     $pdo->exec("ALTER TABLE users ADD COLUMN $col");
-                } catch (\PDOException $colEx) {
-                    // Ignore error if column already exists
-                }
+                } catch (\PDOException $colEx) {}
             }
         }
     } catch (\PDOException $e) {
+        // Create users table
         try {
             $pdo->exec("
                 CREATE TABLE IF NOT EXISTS users (
@@ -67,6 +65,18 @@ try {
                     role ENUM('user', 'admin') DEFAULT 'user',
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
+            ");
+        } catch (\PDOException $migrateEx) {
+            die("Migration Error (users): " . $migrateEx->getMessage());
+        }
+    }
+    
+    // Check for categories table
+    try {
+        $pdo->query("SELECT 1 FROM categories LIMIT 1");
+    } catch (\PDOException $e) {
+        try {
+            $pdo->exec("
                 CREATE TABLE IF NOT EXISTS categories (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(50) NOT NULL,
@@ -100,9 +110,13 @@ try {
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
                 );
+                
+                INSERT IGNORE INTO categories (name, color) VALUES 
+                ('Work', 'work'), ('Study', 'study'), ('Personal', 'personal'),
+                ('Finance', 'finance'), ('Health', 'health'), ('Other', 'other');
             ");
         } catch (\PDOException $migrateEx) {
-            die("Migration Error: " . $migrateEx->getMessage());
+            die("Migration Error (other tables): " . $migrateEx->getMessage());
         }
     }
 } catch (\PDOException $e) {
