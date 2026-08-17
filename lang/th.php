@@ -1,0 +1,173 @@
+<?php
+return [
+    // ─── App & Brand ──────────────────────────────────────
+    'app_name'          => 'Alert',
+    'app_tagline'       => 'จัดการทุกอย่างได้อย่างง่ายดาย',
+
+    // ─── Sidebar Nav ──────────────────────────────────────
+    'nav_dashboard'     => 'แดชบอร์ด',
+    'nav_today'         => 'วันนี้',
+    'nav_calendar'      => 'ปฏิทิน',
+    'nav_all_alerts'    => 'แจ้งเตือนทั้งหมด',
+    'nav_notes'         => 'บันทึก',
+    'nav_categories'    => 'หมวดหมู่',
+    'nav_settings'      => 'ตั้งค่า',
+    'nav_trash'         => 'ถังขยะ',
+    'nav_categories_label' => 'หมวดหมู่',
+    'month'             => 'เดือน',
+    'week'              => 'สัปดาห์',
+    'day'               => 'วัน',
+    'events_for'        => 'กิจกรรมสำหรับ',
+    'items'             => 'รายการ',
+    'create_one'        => '+ สร้างรายการ',
+    'move_to_trash'     => 'ย้ายลงถังขยะ',
+
+    // ─── Premium Card ─────────────────────────────────────
+    'premium_title'     => 'อัปเกรดเป็น Pro',
+    'premium_desc'      => 'ปลดล็อกฟีเจอร์เพิ่มเติม ใช้ Alert เป็นผู้ช่วยส่วนตัวของคุณ',
+    'premium_btn'       => 'อัปเกรดเดี๋ยวนี้',
+
+    // ─── Topbar ───────────────────────────────────────────
+    'search_placeholder' => 'ค้นหาการแจ้งเตือน บันทึก หมวดหมู่...',
+    'switch_to_lang'    => 'English',
+    'lang_flag'         => '🇬🇧',
+
+    // ─── Dashboard ────────────────────────────────────────
+    'greeting'          => 'สวัสดี, :name.',
+    'greeting_focus'    => 'คุณมี :count รายการที่ต้องดูแลวันนี้',
+    'stat_today'        => 'วันนี้',
+    'stat_upcoming'     => 'กำลังจะมาถึง',
+    'stat_overdue'      => 'เกินกำหนด',
+    'stat_completed'    => 'เสร็จแล้ว',
+    'stat_alerts'       => 'รายการ',
+    'create_alert'      => '+ สร้างการแจ้งเตือน',
+    'panel_today'       => 'วันนี้',
+    'panel_upcoming'    => 'กำลังจะมาถึง',
+    'panel_notes'       => 'บันทึก',
+    'btn_view_all'      => 'ดูทั้งหมด',
+    'btn_open_calendar' => 'เปิดปฏิทิน',
+    'empty_today'       => 'ไม่มีการแจ้งเตือนวันนี้!',
+    'empty_upcoming'    => 'ไม่มีรายการที่กำลังจะมาถึง',
+
+    // ─── Alert Modal ──────────────────────────────────────
+    'modal_create_title'   => 'สร้างการแจ้งเตือนใหม่',
+    'modal_field_title'    => 'ชื่อ',
+    'modal_field_date'     => 'วันที่',
+    'modal_field_time'     => 'เวลา',
+    'modal_field_category' => 'หมวดหมู่',
+    'modal_field_priority' => 'ความสำคัญ',
+    'modal_field_desc'     => 'รายละเอียด',
+    'modal_placeholder_title' => 'ชื่อการแจ้งเตือน',
+    'modal_placeholder_desc'  => 'รายละเอียดเพิ่มเติม (ถ้ามี)...',
+    'modal_none_category'  => '— ไม่ระบุ —',
+    'btn_cancel'           => 'ยกเลิก',
+    'btn_create'           => 'สร้างการแจ้งเตือน',
+    'btn_creating'         => 'กำลังสร้าง…',
+
+    // ─── Priority Labels ──────────────────────────────────
+    'priority_low'      => 'ต่ำ',
+    'priority_medium'   => 'กลาง',
+    'priority_high'     => 'สูง',
+
+    // ─── Today Page ───────────────────────────────────────
+    'today_title'       => 'วันนี้',
+    'today_items'       => ':count รายการ',
+    'filter_all'        => 'ทั้งหมด',
+    'filter_all_active' => 'ทั้งหมดที่ใช้งาน',
+    'filter_completed'  => 'เสร็จแล้ว',
+    'todays_alerts'     => 'การแจ้งเตือนวันนี้',
+    'no_alerts_today'   => 'ไม่มีการแจ้งเตือนสำหรับวันนี้!',
+    'btn_create_one'    => '+ สร้างรายการ',
+
+    // ─── Alerts Page ──────────────────────────────────────
+    'alerts_title'      => 'แจ้งเตือนทั้งหมด',
+    'alerts_found'      => 'พบ :count รายการ',
+    'alerts_found_pl'   => 'พบ :count รายการ',
+    'search_alerts'     => 'ค้นหาการแจ้งเตือน...',
+    'btn_search'        => 'ค้นหา',
+    'btn_clear'         => 'ล้าง',
+    'col_title'         => 'ชื่อ',
+    'col_date'          => 'วันที่',
+    'col_time'          => 'เวลา',
+    'col_category'      => 'หมวดหมู่',
+    'col_priority'      => 'ความสำคัญ',
+    'col_actions'       => 'จัดการ',
+    'no_alerts_found'   => 'ไม่พบการแจ้งเตือน',
+
+    // ─── Calendar Page ────────────────────────────────────
+    'calendar_title'    => 'ปฏิทิน',
+
+    // ─── Notes Page ───────────────────────────────────────
+    'notes_title'       => 'บันทึก',
+    'notes_count'       => ':count รายการ',
+    'notes_count_pl'    => ':count รายการ',
+    'btn_new_note'      => '+ บันทึกใหม่',
+    'note_search'       => 'ค้นหาบันทึก...',
+    'no_notes'          => 'ยังไม่มีบันทึก',
+    'btn_create_note'   => '+ สร้างบันทึก',
+    'modal_note_title'  => 'บันทึกใหม่',
+    'note_field_title'  => 'ชื่อ',
+    'note_field_body'   => 'เนื้อหา',
+    'note_placeholder_title' => 'ชื่อบันทึก',
+    'note_placeholder_body'  => 'เขียนบันทึกของคุณที่นี่...',
+    'btn_save_note'     => 'บันทึก',
+    'btn_delete'        => 'ลบ',
+
+    // ─── Categories Page ──────────────────────────────────
+    'categories_title'  => 'หมวดหมู่',
+    'categories_desc'   => 'จัดการหมวดหมู่การแจ้งเตือนของคุณ',
+    'cat_active_alerts' => ':count รายการที่ใช้งาน',
+    'cat_active_alerts_pl' => ':count รายการที่ใช้งาน',
+    'cat_view_link'     => 'ดูการแจ้งเตือน →',
+    'cat_breakdown'     => 'สัดส่วนการแจ้งเตือนตามหมวดหมู่',
+
+    // ─── Settings Page ────────────────────────────────────
+    'settings_title'    => 'ตั้งค่า',
+    'settings_desc'     => 'จัดการการตั้งค่าของคุณ',
+    'settings_saved'    => '✓ บันทึกการตั้งค่าเรียบร้อยแล้ว',
+    'settings_profile'  => 'โปรไฟล์',
+    'field_name'        => 'ชื่อที่แสดง',
+    'field_email'       => 'อีเมล',
+    'field_avatar'      => 'รูปโปรไฟล์',
+    'btn_change_avatar' => 'เปลี่ยนรูป',
+    'btn_save_profile'  => 'บันทึกโปรไฟล์',
+    'settings_notif'    => 'การแจ้งเตือน',
+    'notif_reminders'   => 'การเตือนความจำ',
+    'notif_reminders_desc' => 'รับการแจ้งเตือนก่อนถึงเวลา',
+    'notif_daily'       => 'สรุปรายวัน',
+    'notif_daily_desc'  => 'รับสรุปรายวันเวลา 08:00 น.',
+    'notif_overdue'     => 'แจ้งเตือนที่เกินกำหนด',
+    'notif_overdue_desc'=> 'แจ้งเมื่อมีรายการเกินกำหนด',
+    'btn_save_notif'    => 'บันทึกการแจ้งเตือน',
+    'settings_appearance' => 'การแสดงผล',
+    'field_theme'       => 'ธีม',
+    'theme_light'       => 'สว่าง',
+    'theme_dark'        => 'มืด',
+    'theme_auto'        => 'อัตโนมัติ (ตามระบบ)',
+    'field_accent'      => 'สีหลัก',
+    'field_font_size'   => 'ขนาดตัวอักษร',
+    'font_sm'           => 'เล็ก',
+    'font_md'           => 'กลาง',
+    'font_lg'           => 'ใหญ่',
+    'btn_apply'         => 'ใช้งาน',
+    'settings_danger'   => 'โซนอันตราย',
+    'danger_clear_completed'  => 'ล้างรายการที่เสร็จแล้ว',
+    'danger_clear_desc'       => 'ลบถาวรรายการแจ้งเตือนที่เสร็จแล้วทั้งหมด',
+    'danger_reset'      => 'รีเซ็ตข้อมูลทั้งหมด',
+    'danger_reset_desc' => 'ลบการแจ้งเตือน บันทึก และรีเซ็ตทุกอย่าง',
+    'btn_clear'         => 'ล้าง',
+    'btn_reset'         => 'รีเซ็ต',
+
+    // ─── Trash Page ───────────────────────────────────────
+    'trash_title'       => 'ถังขยะ',
+    'trash_count'       => ':count รายการในถังขยะ',
+    'trash_count_pl'    => ':count รายการในถังขยะ',
+    'btn_empty_trash'   => 'ล้างถังขยะ',
+    'btn_restore'       => 'กู้คืน',
+    'trash_empty_msg'   => 'ถังขยะว่างเปล่า',
+
+    // ─── Month Names (Thai) ───────────────────────────────
+    'months' => ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],
+    'days_short' => ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
+];
+?>

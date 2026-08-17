@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b7a46" />
+  <title>Alert Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <span>Alert</span>
+      </div>
+
+      <nav class="side-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <span class="icon">⌂</span><span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="today">
+          <span class="icon">□</span><span>Today</span>
+        </button>
+        <button class="nav-item" data-view="calendar">
+          <span class="icon">▦</span><span>Calendar</span>
+        </button>
+        <button class="nav-item" data-view="alerts">
+          <span class="icon">◌</span><span>All Alerts</span>
+        </button>
+        <button class="nav-item" data-view="notes">
+          <span class="icon">▤</span><span>Notes</span>
+        </button>
+        <button class="nav-item" data-view="categories">
+          <span class="icon">◇</span><span>Categories</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-section">
+        <div class="section-label">Categories</div>
+        <button class="category-row"><span class="dot work"></span>Work <span class="count">8</span></button>
+        <button class="category-row"><span class="dot study"></span>Study <span class="count">5</span></button>
+        <button class="category-row"><span class="dot personal"></span>Personal <span class="count">4</span></button>
+        <button class="category-row"><span class="dot finance"></span>Finance <span class="count">3</span></button>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" data-view="settings">
+          <span class="icon">⚙</span><span>Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="globalSearch" type="search" placeholder="Search alerts, notes, categories..." />
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" title="Notifications">◉<span class="badge" id="notifBadge">3</span></button>
+          <div class="profile">
+            <div class="avatar">P</div>
+            <div class="profile-copy">
+              <strong>Piyawat</strong>
+              <span>Personal workspace</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="view-dashboard" class="view active">
+        <div class="hero-row">
+          <div>
+            <p class="eyebrow">MONDAY, 17 AUGUST</p>
+            <h1>Good morning, Piyawat.</h1>
+            <p class="subtle">You have a few things that need your attention today.</p>
+          </div>
+          <button class="primary-btn" data-open-modal>+ Create Alert</button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Today</span>
+            <strong id="statToday">4</strong>
+            <small>alerts</small>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Upcoming</span>
+            <strong id="statUpcoming">12</strong>
+            <small>alerts</small>
+          </article>
+          <article class="stat-card danger">
+            <span class="stat-label">Overdue</span>
+            <strong id="statOverdue">2</strong>
+            <small>alerts</small>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Completed</span>
+            <strong id="statCompleted">18</strong>
+            <small>alerts</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel large">
+            <div class="panel-head">
+              <div>
+                <h2>Today</h2>
+                <p>Monday, 17 August 2026</p>
+              </div>
+              <button class="text-btn" data-view-jump="today">View all</button>
+            </div>
+            <div id="todayList" class="task-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>August 2026</h2>
+                <p>Calendar overview</p>
+              </div>
+              <button class="text-btn" data-view-jump="calendar">Open calendar</button>
+            </div>
+            <div id="miniCalendar" class="mini-calendar"></div>
+            <div class="calendar-agenda" id="calendarAgenda"></div>
+          </section>
+
+          <section class="panel large">
+            <div class="panel-head">
+              <div>
+                <h2>Upcoming</h2>
+                <p>Next scheduled reminders</p>
+              </div>
+              <button class="text-btn" data-view-jump="alerts">View all</button>
+            </div>
+            <div id="upcomingList" class="upcoming-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Notes</h2>
+                <p>Quick information to remember</p>
+              </div>
+              <button class="text-btn" data-view-jump="notes">View all</button>
+            </div>
+            <div id="notesPreview" class="notes-preview"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="view-today" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">FOCUS</p><h1>Today</h1><p class="subtle">Only what matters today.</p></div>
+          <button class="primary-btn" data-open-modal>+ Create Alert</button>
+        </div>
+        <div class="panel">
+          <div class="filter-row">
+            <button class="pill active" data-filter="all">All</button>
+            <button class="pill" data-filter="work">Work</button>
+            <button class="pill" data-filter="study">Study</button>
+            <button class="pill" data-filter="personal">Personal</button>
+            <button class="pill" data-filter="finance">Finance</button>
+          </div>
+          <div id="todayFullList" class="task-list"></div>
+        </div>
+      </section>
+
+      <section id="view-calendar" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">SCHEDULE</p><h1>Calendar</h1><p class="subtle">See alerts across the month.</p></div>
+          <div style="display:flex; gap:16px; align-items:center;">
+            <div class="view-toggles" style="display:flex; background:#F3F4F6; padding:4px; border-radius:8px; gap:4px;">
+              <button class="toggle-btn active">Month</button>
+              <button class="toggle-btn">Week</button>
+              <button class="toggle-btn">Day</button>
+            </div>
+            <button class="primary-btn" data-open-modal>+ Create Alert</button>
+          </div>
+        </div>
+        <div class="calendar-layout">
+          <div class="panel calendar-main">
+            <div class="calendar-toolbar">
+              <button class="icon-btn" id="prevMonth">‹</button>
+              <h2 id="calendarTitle">August 2026</h2>
+              <button class="icon-btn" id="nextMonth">›</button>
+            </div>
+            <div id="fullCalendar" class="full-calendar"></div>
+          </div>
+          <aside class="panel">
+            <div class="panel-head"><div><h2>Selected day</h2><p id="selectedDayLabel">17 August 2026</p></div></div>
+            <div id="selectedDayAgenda" class="task-list compact"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="view-alerts" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">REMINDERS</p><h1>All Alerts</h1><p class="subtle">Manage every reminder in one place.</p></div>
+          <button class="primary-btn" data-open-modal>+ Create Alert</button>
+        </div>
+        <div class="panel">
+          <div class="table-tools">
+            <input id="alertSearch" type="search" placeholder="Search alerts..." />
+            <select id="statusFilter"><option value="all">All status</option><option value="active">Active</option><option value="completed">Completed</option></select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Alert</th><th>Date</th><th>Category</th><th>Priority</th><th>Status</th><th></th></tr></thead>
+              <tbody id="alertsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-notes" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">MEMORY</p><h1>Notes</h1><p class="subtle">Keep useful information close at hand.</p></div>
+          <button class="primary-btn" id="addNoteBtn">+ Add Note</button>
+        </div>
+        <div id="notesGrid" class="notes-grid"></div>
+      </section>
+
+      <section id="view-categories" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">ORGANIZE</p><h1>Categories</h1><p class="subtle">Group alerts by context.</p></div>
+        </div>
+        <div id="categoriesGrid" class="category-grid"></div>
+      </section>
+
+      <section id="view-settings" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">PREFERENCES</p><h1>Settings</h1><p class="subtle">Configure reminders and integrations.</p></div>
+        </div>
+
+        <div class="settings-grid">
+          <section class="panel">
+            <div class="settings-row">
+              <div><h3>Email notifications</h3><p>Receive reminder emails when an alert is due.</p></div>
+              <label class="switch"><input id="emailToggle" type="checkbox" checked><span></span></label>
+            </div>
+            <div class="settings-row">
+              <div><h3>Browser notifications</h3><p>Allow this browser to show alerts.</p></div>
+              <label class="switch"><input id="browserToggle" type="checkbox"><span></span></label>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="integration-card">
+              <div class="integration-logo">G</div>
+              <div class="integration-copy">
+                <h3>Google Calendar</h3>
+                <p>Demo connection. In the production version this uses Google OAuth and Calendar API.</p>
+              </div>
+              <button id="connectCalendarBtn" class="secondary-btn">Connect</button>
+            </div>
+            <div id="calendarStatus" class="connection-status">Not connected</div>
+          </section>
+
+          <section class="panel">
+            <h3>Default reminder</h3>
+            <p class="subtle">Choose how early Alert should remind you.</p>
+            <select id="defaultReminder">
+              <option>10 minutes before</option>
+              <option selected>1 hour before</option>
+              <option>1 day before</option>
+            </select>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <nav class="mobile-nav">
+      <button class="mobile-item active" data-view="dashboard"><span>⌂</span><small>Home</small></button>
+      <button class="mobile-item" data-view="today"><span>□</span><small>Today</small></button>
+      <button class="mobile-add" data-open-modal>+</button>
+      <button class="mobile-item" data-view="calendar"><span>▦</span><small>Calendar</small></button>
+      <button class="mobile-item" data-view="alerts"><span>◌</span><small>Alerts</small></button>
+    </nav>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <div><p class="eyebrow">NEW REMINDER</p><h2>Create Alert</h2></div>
+        <button id="closeModal" class="icon-btn">×</button>
+      </div>
+      <form id="alertForm">
+        <label>Title<input id="alertTitle" required placeholder="What do you want to remember?" /></label>
+        <div class="form-grid">
+          <label>Date<input id="alertDate" type="date" required /></label>
+          <label>Time<input id="alertTime" type="time" required /></label>
+        </div>
+        <div class="form-grid">
+          <label>Category
+            <select id="alertCategory">
+              <option value="work">Work</option>
+              <option value="study">Study</option>
+              <option value="personal">Personal</option>
+              <option value="finance">Finance</option>
+              <option value="health">Health</option>
+            </select>
+          </label>
+          <label>Priority
+            <select id="alertPriority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+        </div>
+        <label>Description<textarea id="alertDescription" rows="3" placeholder="Optional details"></textarea></label>
+        <div class="toggle-line"><span>Email reminder</span><label class="switch"><input id="alertEmail" type="checkbox" checked><span></span></label></div>
+        <div class="toggle-line"><span>Add to Google Calendar</span><label class="switch"><input id="alertCalendar" type="checkbox"><span></span></label></div>
+        <div class="modal-actions">
+          <button type="button" id="cancelModal" class="secondary-btn">Cancel</button>
+          <button type="submit" class="primary-btn">Save Alert</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

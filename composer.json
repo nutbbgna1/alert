@@ -1,0 +1,13 @@
+{
+    "name": "program/alert",
+    "description": "Program Alert",
+    "authors": [
+        {
+            "name": "nutbbgna1",
+            "email": "125645257+nutbbgna1@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "lbuchs/webauthn": "^2.2"
+    }
+}
