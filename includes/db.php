@@ -30,9 +30,30 @@ error_reporting(E_ALL);
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
     
-    // Auto-create tables if they don't exist (fixes 500 error on new servers)
+    // Auto-create tables if they don't exist
     try {
         $pdo->query("SELECT 1 FROM users LIMIT 1");
+        
+        // Table exists, but let's check if new columns exist (like password_hash)
+        try {
+            $pdo->query("SELECT password_hash FROM users LIMIT 1");
+        } catch (\PDOException $e) {
+            // password_hash is missing, let's add the missing columns
+            $columns = [
+                "password_hash VARCHAR(255) NOT NULL AFTER username",
+                "full_name VARCHAR(255)",
+                "nickname VARCHAR(100)",
+                "department VARCHAR(100)",
+                "role ENUM('user', 'admin') DEFAULT 'user'"
+            ];
+            foreach ($columns as $col) {
+                try {
+                    $pdo->exec("ALTER TABLE users ADD COLUMN $col");
+                } catch (\PDOException $colEx) {
+                    // Ignore error if column already exists
+                }
+            }
+        }
     } catch (\PDOException $e) {
         try {
             $pdo->exec("
