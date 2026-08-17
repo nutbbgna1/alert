@@ -28,6 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     }
+
+    if ($action === 'delete') {
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id > 0) {
+            $stmt = $pdo->prepare("DELETE FROM categories WHERE id = ? AND user_id = ?");
+            if ($stmt->execute([$id, $user_id])) {
+                echo json_encode(['success' => true]);
+                exit;
+            }
+        }
+        echo json_encode(['success' => false, 'error' => 'Could not delete category']);
+        exit;
+    }
 }
 
 echo json_encode(['success' => false, 'error' => 'Invalid request']);

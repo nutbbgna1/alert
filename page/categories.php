@@ -50,7 +50,10 @@ $colorMap = [
               <p class="subtle"><?= $cat['alert_count'] ?> active alert<?= $cat['alert_count'] != 1 ? 's' : '' ?></p>
             </div>
           </div>
-          <a href="alerts.php?category=<?= $cat['id'] ?>" class="cat-view-link">View alerts →</a>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 16px;">
+            <a href="alerts.php?category=<?= $cat['id'] ?>" class="cat-view-link" style="margin-top:0;">View alerts →</a>
+            <button class="delete-cat-btn" data-id="<?= $cat['id'] ?>" style="background:none;border:none;color:var(--danger, #F44336);cursor:pointer;font-weight:600;font-size:13px;">Delete</button>
+          </div>
         </div>
       <?php endforeach; ?>
     </div>
@@ -109,5 +112,32 @@ $colorMap = [
       </form>
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll('.delete-cat-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete this category? All alerts in this category will become uncategorized.')) {
+          const id = this.dataset.id;
+          fetch('../actions/category_action.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `action=delete&id=${id}`
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              window.location.reload();
+            } else {
+              alert(data.error || 'Failed to delete category');
+            }
+          })
+          .catch(err => {
+            alert('An error occurred');
+            console.error(err);
+          });
+        }
+      });
+    });
+  </script>
 
 <?php include '../includes/footer.php'; ?>
