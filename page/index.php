@@ -7,8 +7,6 @@ include '../includes/topbar.php';
 
 // Fetch stats
 $today = date('Y-m-d');
-// For demo purposes, we'll hardcode $today to '2025-05-24' to match the screenshot data
-$today = '2025-05-24';
 
 $user_id = $_SESSION['user_id'];
 
@@ -176,22 +174,24 @@ function formatDate($dateStr) {
           <div class="grid-right">
             <section class="panel">
               <div class="panel-head" style="justify-content: space-between;">
-                <button class="icon-btn">‹</button>
-                <h2 style="font-size: 14px; margin: 0; font-weight: 600;">May 2025</h2>
-                <button class="icon-btn">›</button>
+                <a href="calendar.php" class="icon-btn" style="text-decoration:none;">‹</a>
+                <h2 style="font-size: 14px; margin: 0; font-weight: 600;"><?= date('F Y') ?></h2>
+                <a href="calendar.php" class="icon-btn" style="text-decoration:none;">›</a>
               </div>
               <div class="mini-calendar">
                 <div class="cal-head">Sun</div><div class="cal-head">Mon</div><div class="cal-head">Tue</div><div class="cal-head">Wed</div><div class="cal-head">Thu</div><div class="cal-head">Fri</div><div class="cal-head">Sat</div>
                 <?php
-                  $firstDay = 4; // May 1, 2025 is Thursday (0=Sun..4=Thu)
-                  $daysInMonth = 31;
-                  $prevDays = 30; // April has 30
+                  $year = (int)date('Y');
+                  $month = (int)date('m');
+                  $daysInMonth = (int)date('t');
+                  $firstDay = (int)date('w', mktime(0,0,0,$month,1,$year));
+                  $prevDays = (int)date('t', mktime(0,0,0,$month-1,1,$year));
                   
                   for($i = $firstDay - 1; $i >= 0; $i--) {
                       echo '<div class="cal-day muted">' . ($prevDays - $i) . '</div>';
                   }
                   for($d = 1; $d <= $daysInMonth; $d++) {
-                      $isToday = ($d == 24) ? 'today' : '';
+                      $isToday = ($d == (int)date('j')) ? 'today' : '';
                       echo '<div class="cal-day ' . $isToday . '">' . $d . '</div>';
                   }
                   $totalCells = $firstDay + $daysInMonth;
@@ -203,8 +203,8 @@ function formatDate($dateStr) {
               </div>
               <div class="calendar-agenda-mini">
                  <div class="agenda-header">
-                    <span>Today <span class="muted-dot">•</span> May 24</span>
-                    <span class="muted-text">4 events</span>
+                    <span><?= __t('panel_today') ?> <span class="muted-dot">•</span> <?= date('M j') ?></span>
+                    <span class="muted-text"><?= count($todayAlerts) ?> events</span>
                  </div>
                  <?php foreach($todayAlerts as $alert): ?>
                     <div class="agenda-item">

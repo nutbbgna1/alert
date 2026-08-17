@@ -203,4 +203,5 @@ document.getElementById('registerDeviceBtn').addEventListener('click', async () 
 });
 </script>
 
+<?php include '../includes/modal.php'; ?>
 <?php include '../includes/footer.php'; ?>

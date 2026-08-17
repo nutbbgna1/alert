@@ -93,6 +93,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     }
+
+    // EMPTY TRASH
+    if ($action === 'empty_trash') {
+        $stmt = $pdo->prepare("DELETE FROM alerts WHERE status = 'trashed' AND user_id = ?");
+        if ($stmt->execute([$user_id])) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false]);
+        }
+        exit;
+    }
+
+    // CLEAR COMPLETED
+    if ($action === 'clear_completed') {
+        $stmt = $pdo->prepare("DELETE FROM alerts WHERE status = 'completed' AND user_id = ?");
+        if ($stmt->execute([$user_id])) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false]);
+        }
+        exit;
+    }
+
+    // RESET ALL ALERTS & NOTES
+    if ($action === 'reset_all') {
+        $stmt1 = $pdo->prepare("DELETE FROM alerts WHERE user_id = ?");
+        $stmt1->execute([$user_id]);
+        $stmt2 = $pdo->prepare("DELETE FROM notes WHERE user_id = ?");
+        $stmt2->execute([$user_id]);
+        echo json_encode(['success' => true]);
+        exit;
+    }
 }
 
 echo json_encode(['success' => false, 'error' => 'Invalid request']);

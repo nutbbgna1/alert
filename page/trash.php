@@ -59,4 +59,5 @@ $trashed = $trashedStmt->fetchAll();
     </div>
   </section>
 
+<?php include '../includes/modal.php'; ?>
 <?php include '../includes/footer.php'; ?>
