@@ -54,8 +54,10 @@ $notesStmt = $pdo->prepare("SELECT * FROM notes WHERE user_id = ? ORDER BY id AS
 $notesStmt->execute([$user_id]);
 $notesList = $notesStmt->fetchAll();
 
-function formatTime($timeStr) {
-    return date('H:i', strtotime($timeStr));
+function formatAlertTime($start, $end = null) {
+    if (!$start && !$end) return '—';
+    if ($start && $end) return date('H:i', strtotime($start)) . ' - ' . date('H:i', strtotime($end));
+    return $start ? date('H:i', strtotime($start)) : date('H:i', strtotime($end));
 }
 function formatDate($dateStr) {
     return date('M j', strtotime($dateStr));
@@ -107,7 +109,7 @@ function formatDate($dateStr) {
                   <?php foreach($todayAlerts as $alert): ?>
                     <div class="task-row">
                       <button class="check" data-complete="<?= $alert['id'] ?>"></button>
-                      <div class="task-time"><?= formatTime($alert['alert_time']) ?></div>
+                      <div class="task-time" style="white-space:nowrap;"><?= formatAlertTime($alert['alert_time'], $alert['end_time'] ?? null) ?></div>
                       <div class="task-content">
                         <div class="task-title"><?= htmlspecialchars($alert['title']) ?></div>
                       </div>
@@ -152,7 +154,7 @@ function formatDate($dateStr) {
                   <?php endif; ?>
                     
                   <div class="task-row no-check">
-                    <div class="task-time"><?= formatTime($alert['alert_time']) ?></div>
+                    <div class="task-time" style="white-space:nowrap;"><?= formatAlertTime($alert['alert_time'], $alert['end_time'] ?? null) ?></div>
                     <div class="task-content">
                       <div class="task-title"><?= htmlspecialchars($alert['title']) ?></div>
                     </div>
@@ -209,7 +211,7 @@ function formatDate($dateStr) {
                  <?php foreach($todayAlerts as $alert): ?>
                     <div class="agenda-item">
                        <span class="dot <?= htmlspecialchars($alert['category_color']) ?>"></span>
-                       <span class="time"><?= formatTime($alert['alert_time']) ?></span>
+                       <span class="time"><?= formatAlertTime($alert['alert_time'], $alert['end_time'] ?? null) ?></span>
                        <span class="title"><?= htmlspecialchars($alert['title']) ?></span>
                        <span class="tag <?= htmlspecialchars($alert['category_color']) ?>"><?= htmlspecialchars($alert['category_name']) ?></span>
                     </div>

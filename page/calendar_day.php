@@ -16,7 +16,11 @@ $user_id = $_SESSION['user_id'];
 $today = date('Y-m-d');
 
 // Shared helpers
-function formatTime($t) { return date('H:i', strtotime($t)); }
+function formatAlertTime($start, $end = null) {
+    if (!$start && !$end) return '—';
+    if ($start && $end) return date('H:i', strtotime($start)) . ' - ' . date('H:i', strtotime($end));
+    return $start ? date('H:i', strtotime($start)) : date('H:i', strtotime($end));
+}
 
 // -- Day View Variables --
 $prevDate = date('Y-m-d', strtotime('-1 day', $dateTs));
@@ -77,7 +81,7 @@ $alerts = $stmt->fetchAll();
               <button class="check <?= $alert['status'] === 'completed' ? 'checked' : '' ?>" data-complete="<?= $alert['id'] ?>">
                 <?= $alert['status'] === 'completed' ? '✓' : '' ?>
               </button>
-              <div class="task-time"><?= formatTime($alert['alert_time']) ?></div>
+              <div class="task-time" style="white-space:nowrap;"><?= formatAlertTime($alert['alert_time'], $alert['end_time'] ?? null) ?></div>
               <div class="task-content">
                 <div class="task-title" <?= $alert['status'] === 'completed' ? 'style="text-decoration:line-through;color:var(--text-muted);"' : '' ?>><?= htmlspecialchars($alert['title']) ?></div>
                 <?php if($alert['description']): ?>

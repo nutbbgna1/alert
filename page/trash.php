@@ -36,7 +36,15 @@ $trashed = $trashedStmt->fetchAll();
             <div class="task-row trashed-row" id="trash-row-<?= $alert['id'] ?>">
               <div class="task-content" style="opacity:0.6;">
                 <div class="task-title" style="text-decoration:line-through;"><?= htmlspecialchars($alert['title']) ?></div>
-                <div class="task-desc"><?= date('D, M j', strtotime($alert['alert_date'])) ?> at <?= date('H:i', strtotime($alert['alert_time'])) ?></div>
+                <?php
+                  $timeDesc = '';
+                  if ($alert['alert_time'] && $alert['end_time']) {
+                    $timeDesc = ' at ' . date('H:i', strtotime($alert['alert_time'])) . ' - ' . date('H:i', strtotime($alert['end_time']));
+                  } elseif ($alert['alert_time']) {
+                    $timeDesc = ' at ' . date('H:i', strtotime($alert['alert_time']));
+                  }
+                ?>
+                <div class="task-desc"><?= date('D, M j', strtotime($alert['alert_date'])) ?><?= $timeDesc ?></div>
               </div>
               <?php if($alert['category_name']): ?>
                 <span class="tag <?= htmlspecialchars($alert['category_color']) ?>"><?= htmlspecialchars($alert['category_name']) ?></span>

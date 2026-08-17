@@ -16,7 +16,11 @@ $user_id = $_SESSION['user_id'];
 $today = date('Y-m-d');
 
 // Shared helpers
-function formatTime($t) { return date('H:i', strtotime($t)); }
+function formatAlertTime($start, $end = null) {
+    if (!$start && !$end) return '';
+    if ($start && $end) return date('H:i', strtotime($start)) . ' - ' . date('H:i', strtotime($end));
+    return $start ? date('H:i', strtotime($start)) : date('H:i', strtotime($end));
+}
 
 // -- Week View Variables --
 $prevDate = date('Y-m-d', strtotime('-1 week', $dateTs));
@@ -99,7 +103,9 @@ foreach($allAlerts as $a) {
           <div class="fcal-events" style="margin-top:12px; gap:8px;">
             <?php foreach($alerts as $a): ?>
               <div class="fcal-event <?= $a['priority'] ?>-event" title="<?= htmlspecialchars($a['title']) ?>" style="padding:6px; font-size:12px; white-space:normal;">
-                <strong><?= date('H:i', strtotime($a['alert_time'])) ?></strong><br>
+                <?php $t = formatAlertTime($a['alert_time'], $a['end_time'] ?? null); if($t): ?>
+                  <strong><?= $t ?></strong><br>
+                <?php endif; ?>
                 <?= htmlspecialchars($a['title']) ?>
               </div>
             <?php endforeach; ?>

@@ -31,7 +31,11 @@ $catStmt = $pdo->prepare("SELECT * FROM categories WHERE user_id = ?");
 $catStmt->execute([$user_id]);
 $categories = $catStmt->fetchAll();
 
-function formatTime($t) { return date('H:i', strtotime($t)); }
+function formatAlertTime($start, $end = null) {
+    if (!$start && !$end) return '—';
+    if ($start && $end) return date('H:i', strtotime($start)) . ' - ' . date('H:i', strtotime($end));
+    return $start ? date('H:i', strtotime($start)) : date('H:i', strtotime($end));
+}
 ?>
   <section class="view active" id="view-today">
     <div class="hero-row">
@@ -69,7 +73,7 @@ function formatTime($t) { return date('H:i', strtotime($t)); }
           <?php foreach($alerts as $alert): ?>
             <div class="task-row" id="row-<?= $alert['id'] ?>">
               <button class="check" data-complete="<?= $alert['id'] ?>"></button>
-              <div class="task-time"><?= formatTime($alert['alert_time']) ?></div>
+              <div class="task-time" style="white-space:nowrap;"><?= formatAlertTime($alert['alert_time'], $alert['end_time'] ?? null) ?></div>
               <div class="task-content">
                 <div class="task-title"><?= htmlspecialchars($alert['title']) ?></div>
                 <?php if($alert['description']): ?>

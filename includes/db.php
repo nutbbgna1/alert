@@ -52,9 +52,15 @@ try {
             }
         }
         
-        // Ensure alerts table has 'trashed' status
+        // Ensure alerts table schema has 'trashed' status and end_time
         try {
             $pdo->exec("ALTER TABLE alerts MODIFY COLUMN status ENUM('active', 'completed', 'trashed') DEFAULT 'active'");
+        } catch (\PDOException $e) {}
+        try {
+            $pdo->exec("ALTER TABLE alerts MODIFY COLUMN alert_time TIME NULL");
+        } catch (\PDOException $e) {}
+        try {
+            $pdo->exec("ALTER TABLE alerts ADD COLUMN end_time TIME NULL AFTER alert_time");
         } catch (\PDOException $e) {}
     } catch (\PDOException $e) {
         // Create users table
@@ -99,7 +105,8 @@ try {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     title VARCHAR(255) NOT NULL,
                     alert_date DATE NOT NULL,
-                    alert_time TIME NOT NULL,
+                    alert_time TIME NULL,
+                    end_time TIME NULL,
                     category_id INT,
                     priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
                     status ENUM('active', 'completed', 'trashed') DEFAULT 'active',

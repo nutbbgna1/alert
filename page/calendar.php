@@ -94,9 +94,11 @@ foreach($allAlerts as $a) {
         <div class="fcal-cell <?= $isToday ? 'today' : '' ?>" onclick="window.location.href='calendar_day.php?date=<?= $dateStr ?>'" style="cursor:pointer;">
           <span class="fcal-daynum <?= $isToday ? 'today-num' : '' ?>"><?= $d ?></span>
           <div class="fcal-events">
-            <?php foreach(array_slice($alerts, 0, 3) as $a): ?>
+            <?php foreach(array_slice($alerts, 0, 3) as $a): 
+              $timePrefix = $a['alert_time'] ? date('H:i', strtotime($a['alert_time'])) . ' ' : '';
+            ?>
               <div class="fcal-event <?= $a['priority'] ?>-event" title="<?= htmlspecialchars($a['title']) ?>">
-                <?= date('H:i', strtotime($a['alert_time'])) ?> <?= htmlspecialchars(mb_strimwidth($a['title'], 0, 18, '…')) ?>
+                <?= $timePrefix ?><?= htmlspecialchars(mb_strimwidth($a['title'], 0, 18, '…')) ?>
               </div>
             <?php endforeach; ?>
             <?php if(count($alerts) > 3): ?>

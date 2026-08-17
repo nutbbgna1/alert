@@ -32,7 +32,11 @@ $catStmt = $pdo->prepare("SELECT * FROM categories WHERE user_id = ?");
 $catStmt->execute([$user_id]);
 $categories = $catStmt->fetchAll();
 
-function formatTime($t) { return date('H:i', strtotime($t)); }
+function formatAlertTime($start, $end = null) {
+    if (!$start && !$end) return '—';
+    if ($start && $end) return date('H:i', strtotime($start)) . ' - ' . date('H:i', strtotime($end));
+    return $start ? date('H:i', strtotime($start)) : date('H:i', strtotime($end));
+}
 function formatDate($d) { return date('D, M j', strtotime($d)); }
 ?>
   <section class="view active" id="view-alerts">
@@ -88,7 +92,7 @@ function formatDate($d) { return date('D, M j', strtotime($d)); }
             <div class="alert-table-row" id="row-<?= $alert['id'] ?>">
               <span class="alert-title-cell"><?= htmlspecialchars($alert['title']) ?></span>
               <span class="alert-date-cell"><?= formatDate($alert['alert_date']) ?></span>
-              <span class="alert-time-cell"><?= formatTime($alert['alert_time']) ?></span>
+              <span class="alert-time-cell"><?= formatAlertTime($alert['alert_time'], $alert['end_time'] ?? null) ?></span>
               <span>
                 <?php if($alert['category_name']): ?>
                   <span class="tag <?= htmlspecialchars($alert['category_color']) ?>"><?= htmlspecialchars($alert['category_name']) ?></span>

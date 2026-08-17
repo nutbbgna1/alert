@@ -19,11 +19,6 @@ $modalCats = $catStmt2->fetchAll();
         <label><?= __t('modal_field_date') ?> *
           <input type="date" id="alertDate" name="alert_date" required value="<?= date('Y-m-d') ?>">
         </label>
-        <label><?= __t('modal_field_time') ?>
-          <input type="time" id="alertTime" name="alert_time" value="09:00">
-        </label>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <label><?= __t('modal_field_category') ?>
           <select id="alertCategory" name="category_id">
             <option value=""><?= __t('modal_none_category') ?></option>
@@ -32,6 +27,16 @@ $modalCats = $catStmt2->fetchAll();
             <?php endforeach; ?>
           </select>
         </label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <label><?= __t('modal_field_start_time') ?>
+          <input type="time" id="alertTime" name="alert_time" placeholder="--:--">
+        </label>
+        <label><?= __t('modal_field_end_time') ?>
+          <input type="time" id="alertEndTime" name="end_time" placeholder="--:--">
+        </label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr;gap:16px;">
         <label><?= __t('modal_field_priority') ?>
           <select id="alertPriority" name="priority">
             <option value="low"><?= __t('priority_low') ?></option>
